@@ -1,0 +1,138 @@
+body{
+  -webkit-app-region: drag;
+  overflow: hidden;
+}
+button {
+  -webkit-app-region: no-drag;
+}
+div.container{
+  -webkit-app-region: no-drag;
+  overflow-y: scroll;
+  height: 439px;
+}
+div#messageView{
+  margin-top: 10px;
+}
+div.container::-webkit-scrollbar{
+  display: none;
+}
+div.buttons{
+    text-align: left;
+    float: left;
+    }
+  div.selectboxes{
+    text-align: right;
+    float: right;
+  }
+  button.fa-window-restore{
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 6px;
+  }
+  button.fa-search{
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 6px;
+  }
+  button.fa-pause{
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 7px;
+  }
+  button.fa-toggle-off{
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 10px;
+  }
+  button.fa-toggle-on{
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 10px;
+  }
+  button.fa-clipboard{
+    float: right;
+    font-family: FontAwesome;
+    background-color: transparent;
+    border-style: none;
+    padding: 6px 10px;
+  }
+input[type=checkbox]{
+   display:none; 
+   } /* to hide the checkbox itself */
+input[type=checkbox] + label:before{
+  -webkit-app-region: no-drag;
+  font-size: 24px;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-family: FontAwesome;
+  display: inline-block;
+}
+input[type=checkbox] + label:before{
+   content: "\f096"; 
+   } /* unchecked icon */
+input[type=checkbox] + label:before{
+   letter-spacing: normal; 
+   } /* space between checkbox and label */
+
+input[type=checkbox]:checked + label:before{
+   content: "\f046"; 
+   } /* checked icon */
+input[type=checkbox]:checked + label:before{
+   letter-spacing: normal;
+   } /* allow space for check mark */
+input[type=text]{
+  -webkit-app-region: no-drag;
+  font-size: 0.9em;
+  float: right;
+  width: 226px;
+  height: 24px;
+  margin: 7px 5px 0px 0px;
+}
+select{
+  -webkit-app-region: no-drag;
+  font-size: 0.9em;
+  font-family: メイリオ;
+  display: inline-block;
+  width: 230px;
+  height: 30px;
+  color: #000;
+  line-height: 40px;
+  margin: 7px  5px  0px  0px; 
+  padding: 0px  0px  0px  0px; 
+}
+
+/* チャットレイアウト */
+.chat-box {
+    width: 485px;
+    height: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.chat-face {
+    float: left;
+    margin-right: -120px;
+}
+.chat-face img{
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 4px #ddd;
+    margin-top: 2px;
+    margin-left: 3px;
+}
+.chat-area {
+    width: 425px;
+    float: right;
+}
+.chat-hukidashi {
+    font-family: メイリオ;
+    display: 100%;
+    padding: 15px 20px;
+    border-radius: 10px;
+    position: relative;
+    background-color: #D9F0FF;
+}

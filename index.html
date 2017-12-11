@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<title>おしゃれな方のグラブルレイダー</title>
+</head>
+<body>
+<div class="buttons">
+<button class="fa fa-search fa-2x" id="search" onclick="search()">
+<button class="fa fa-pause fa-2x" id="stop" style="display:none;">
+<button class="fa fa-window-restore fa-2x" id="restore" onclick="restore()">
+<button class="fa fa-toggle-off fa-2x" id="toggle-off" onClick="toggle()" style="display:none;">
+<button class="fa fa-toggle-on fa-2x" id="toggle-on" onClick="toggle()">
+</div>
+<div class="selectboxes" id="selbox">
+<form name="selbox">
+<select name="enemy">
+<option></option>
+<option>----- マグナ -----</option>
+<option>Lv70 コロッサス・マグナ</option>
+<option>Lv60 リヴァイアサン・マグナ</option>
+<option>Lv50 ティアマト・マグナ</option>
+<option>Lv60 ユグドラシル・マグナ</option>
+<option>Lv75 シュヴァリエ・マグナ</option>
+<option>Lv75 セレスト・マグナ</option>
+<option>----- マグナHL -----</option>
+<option>Lv100 コロッサス・マグナ</option>
+<option>Lv100 リヴァイアサン・マグナ</option>
+<option>Lv100 ティアマト・マグナ＝エア</option>
+<option>Lv100 ユグドラシル・マグナ</option>
+<option>Lv100 シュヴァリエ・マグナ</option>
+<option>Lv100 セレスト・マグナ</option>
+<option>----- 旧石 -----</option>
+<option>Lv100 フラム＝グラス</option>
+<option>Lv100 マキュラ・マリウス</option>
+<option>Lv100 ナタク</option>
+<option>Lv100 メドゥーサ</option>
+<option>Lv100 アポロン</option>
+<option>Lv100 Dエンジェル・オリヴィエ</option>
+<option>----- 旧石HL -----</option>
+<option>Lv120 フラム＝グラス</option>
+<option>Lv120 マキュラ・マリウス</option>
+<option>Lv120 ナタク</option>
+<option>Lv120 メドゥーサ</option>
+<option>Lv120 アポロン</option>
+<option>Lv120 Dエンジェル・オリヴィエ</option>
+<option>----- 新石 -----</option>
+<option>Lv100 アテナ</option>
+<option>Lv100 グラニ</option>
+<option>Lv100 ガルーダ</option>
+<option>Lv100 バアル</option>
+<option>Lv100 オーディン</option>
+<option>Lv100 リッチ</option>
+<option>----- 高級鞄HL -----</option>
+<option>Lv120 プロメテウス</option>
+<option>Lv120 カー・オン</option>
+<option>Lv120 バイヴカハ</option>
+<option>Lv120 ギルガメッシュ</option>
+<option>Lv120 ヘクトル</option>
+<option>Lv120 アヌビス</option>
+<option>----- 天司 -----</option>
+<option>Lv100 ミカエル</option>
+<option>Lv100 ガブリエル</option>
+<option>Lv100 ラファエル</option>
+<option>Lv100 ウリエル</option>
+<option>----- その他 -----</option>
+<option>Lv110 ローズクイーン</option>
+<option>Lv100 プロトバハムート</option>
+<option>Lv150 プロトバハムート</option>
+<option>Lv150 アルティメットバハムート</option>
+<option>Lv200 アルティメットバハムート</option>
+<option>Lv100 ジ・オーダー・グランデ</option>
+</select>
+</form>
+</div>
+<div id="text" style="display:none;">
+<form name ="text1">
+<input type="text" name="text2">
+</form>
+</div>
+<div class="checkboxes">
+<input type="checkbox" id="check1" checked="checked"><label for="check1">
+</div>
+<br>
+<div class="container">
+<div class="row">
+<div id="messageView">
+</div>
+</div>
+</div>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+  var twitter = require('twitter');
+  const clipboard = require('electron').clipboard
+  const ipcRenderer = require('electron').ipcRenderer;
+
+  var twitter_auth = new twitter({
+    consumer_key: 'consumer_key',
+    consumer_secret: 'consumer_secret',
+    access_token_key: 'access_token_key',
+    access_token_secret: 'access_token_secret'
+  });
+
+  var element1 = document.getElementById("check1");
+  var button = document.getElementById('copyButton');
+
+  var ready = new Audio();
+  var get = new Audio();
+  var are = new Audio();
+  get.src = "./get.mp3";
+  ready.src = "./ready.mp3";
+  are.src = "./are.mp3";
+  var text = "";
+  var comment = "";
+  var search_word = "";
+  var kirikae = false;
+  var kensaku = false;
+
+  function restore(){
+    ipcRenderer.send('restore', 'restore');
+  }
+
+  function copy() {
+    var yourCode = document.getElementById('yourCode');
+    var range = document.createRange();
+    range.selectNode(yourCode);
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+  }
+
+  function toggle(){
+    if(!kirikae){
+      document.getElementById("selbox").style.display="none";
+      document.getElementById("text").style.display="";
+      document.getElementById("toggle-off").style.display="";
+      document.getElementById("toggle-on").style.display="none";
+      kirikae = true;
+    }
+    else if(kirikae){
+      document.getElementById("selbox").style.display="";
+      document.getElementById("text").style.display="none";
+      document.getElementById("toggle-off").style.display="none";
+      document.getElementById("toggle-on").style.display="";
+      kirikae = false;
+    }
+  }
+
+  function run() {
+    if(!kirikae){
+      search_word = document.selbox.enemy.value;
+    }
+    else if(kirikae){
+      search_word = document.text1.text2.value;
+    }
+    twitter_auth.stream('statuses/filter', { track: search_word }, function (stream) {
+      stream.on('data', function (tweet) {
+        try {
+          $('#stop').click(function() {
+            stream.destroy();
+            kensaku = false;
+            document.getElementById("stop").style.display="none";
+            document.getElementById("search").style.display="";
+          });
+
+          text = tweet.text;
+          id = text.split(":")[0];
+          id = id.slice(-9);
+          id = id.replace(" ", "");
+
+          comment = text.split(":")[0];
+          comment = comment.slice(0,-10);
+          //comment = comment.replace("参加者募集！参戦ID", "");
+          if(comment != ""){
+            comment = "<font color=\"#1e90ff\">" + comment + "</font><br>";
+          }
+          
+          if (element1.checked) {
+            clipboard.writeText(id);
+            get.play();
+          }
+
+          $("#messageView").prepend(
+            "<div class=\"chat-box\">" +
+            "<div class=\"chat-face\">" +
+            "<img src=" + tweet.user.profile_image_url + ">" +
+            "</div>" +
+            "<div class=\"chat-area\">" +
+            "<div class=\"chat-hukidashi\">" +
+            tweet.user.name + '　@' + tweet.user.screen_name + "<br>" +
+            comment + search_word + "　" +
+            "<span id=\"yourCode\">" + id + "</span>" +
+            "<button id=\"copyButton\" class=\"fa fa-clipboard\" onclick=\"copy()\">" +
+            "</div>" +
+            "</div>" +
+            "</div>");
+        } catch (e) {}
+      });
+
+      stream.on('error', function (tweet) {
+      });
+
+      stream.on('end', function (tweet) {
+        if(kensaku){
+          are.play();
+          run();
+        }
+      });
+    })
+  }
+
+  function search() {
+    if (document.selbox.enemy.value != "" || document.text1.text2.value != "") {
+      ready.play();
+      if (kensaku) {
+        alert("既に実行されています") 
+      }
+      if (!kensaku) {
+        document.getElementById("search").style.display="none";
+        document.getElementById("stop").style.display="";
+        kensaku = true;
+        run();
+      }
+    }
+  }
+</script>
+</body>
+<footer>
+</footer>
+</html>
